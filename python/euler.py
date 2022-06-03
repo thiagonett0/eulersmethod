@@ -126,7 +126,7 @@ def equacoes(t, y0):
     return vetor
 
 
-def metodoEuler(h, limite, y0, equacoes):
+def metodoEuler(h, limite, y0, equacoes, titulo, quantidades):
 
     """
     Descrição: executa o método de Euler para um sistema de equações diferenciais lineares de primeira ordem. Ao executar
@@ -138,19 +138,21 @@ def metodoEuler(h, limite, y0, equacoes):
                 ii) limite (float): limite para a variável independente;
                 iii) y0 (list): vetor de condição inicial;
                 iv) equacoes (func): vetor de equações a serem resolvidas;
+                v) titulo (str): título do gráfico;
+                vi) quantidades (list): lista com nomes das quantidades a serem resolvidas;
     
     Saída(s):
                 i) solucaoNum (list): matrix contendo a variável independente e as soluções numéricas dispostas por linhas.
     """
 
     t = h
-    solucaoNum = list()
+    solucaoNum, condInicial = list(), y0
     while t <= limite:
         y = somaVetorial(y0, produtoEscalar(h, equacoes(t, y0)), soma)
         solucaoNum.append([t] + y)
         t += h
         y0 = y
     solucaoNum = np.transpose(solucaoNum)
-    grafico(solucaoNum)
+    grafico(solucaoNum, titulo, f'Sujeito a y0 = {condInicial} (SI)', quantidades)
     # print(solucaoNum)
     return solucaoNum
