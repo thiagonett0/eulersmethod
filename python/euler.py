@@ -4,104 +4,11 @@ Descrição: código que executa soluções de sistemas de equações diferencia
 """
 
 
+import sys
+sys.path.append( 'path' )
+
+import linalg as la
 from graficos import *
-
-
-def soma(i, j):
-
-    """
-    Descrição: opera a soma entre dois números reais;
-
-    Entrada(s):
-                i) i (float): número real;
-                ii) j (float): número real;
-    
-    Saída(s):
-                i) i + j (float): resultado da operação.
-    """
-
-    return i+j
-
-
-def subtracao(i, j):
-
-    """
-    Descrição: análogo à função anterior;
-
-    Entrada(s): análogo à função anterior;
-    
-    Saída(s): análogo à função anterior.
-    """
-
-    return i-j
-
-
-def somaVetorial(u, v, operacao):
-
-    """
-    Descrição: opera soma entre dois vetores reais. Nesse caso, a validação da operação se dá por meio de exceção;
-
-    Entrada(s):
-                i) u (list): vetor real;
-                ii) v (list): vetor real;
-                iii) operacao (func): função de operação entre os elementos dos vetores;
-
-    Saída(s):
-                i) s (list): resultado da operação;
-                ii) None.
-    """
-
-    try:
-        s = list()
-        for i, j in zip(u, v):
-            s.append(operacao(i, j))
-        return s
-    except IndexError:
-        print(f"Os vetores têm que possuir mesma dimensão!")
-        return None
-
-
-def somaVetorial2(u, v, operacao):
-
-    """
-    Descrição: opera soma entre dois vetores reais. Nesse caso, a validação da operação se dá por meio de uma cláusula if;
-
-    Entrada(s):
-                i) u (list): vetor real;
-                ii) v (list): vetor real;
-                iii) operacao (func): função de operação entre os elementos dos vetores;
-
-    Saída(s):
-                i) s (list): resultado da operação;
-                ii) None.
-    """
-
-    if len(u) == len(v):
-        s = list()
-        for i, j in zip(u, v):
-            s.append(operacao(i, j))
-        return s
-    else:
-        print(f"Os vetores têm que possuir mesma dimensão!")
-        return None
-
-
-def produtoEscalar(a, u):
-
-    """
-    Descrição: opera o produto escalar;
-
-    Entrada(s):
-                i) a (float): número real a escalar o vetor;
-                ii) u (list): vetor a ser escalado;
-    
-    Saída(s):
-                i) u (list): vetor já escalado.
-    """
-
-    for indice, i in enumerate(u, 0):
-        u[indice] = a*i
-    return u
 
 
 def equacoes(t, y0):
@@ -148,11 +55,11 @@ def metodoEuler(h, limite, y0, equacoes, titulo, quantidades):
     t = h
     solucaoNum, condInicial = list(), y0
     while t <= limite:
-        y = somaVetorial(y0, produtoEscalar(h, equacoes(t, y0)), soma)
+        y = la.vectorSum(y0, la.dotProduct(h, equacoes(t, y0)))
         solucaoNum.append([t] + y)
         t += h
         y0 = y
-    solucaoNum = np.transpose(solucaoNum)
+    solucaoNum = la.matrixTranspose(solucaoNum)
     grafico(solucaoNum, titulo, f'Sujeito a y0 = {condInicial} (SI)', quantidades)
     # print(solucaoNum)
     return solucaoNum

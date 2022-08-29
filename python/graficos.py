@@ -37,7 +37,7 @@ def grafico(funcoes, titulo, subtitulo, quantidades):
                 subplot_titles=(subtitulo,))
     for indice, funcao in enumerate(funcoes[1:], 0):
         fig.add_trace(go.Scatter(x = funcoes[0], y = funcao, mode='lines', name = quantidades[indice], line=dict(color=my_themes.paletteGenerator(np.random.randint(5)))), row=1, col=1)
-    fig.update_xaxes(title_text='t (s)', row=1, col=1)
+    fig.update_xaxes(title_text='t', row=1, col=1)
     fig.update_yaxes(title_text='f(t) (SI)', row=1, col=1)
     fig.update_layout(title_text=titulo, title_font_size=20)
     fig.show()
